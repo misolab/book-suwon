@@ -35,5 +35,11 @@ public class Apply {
     public String page;
     public String speciesKey;
     public String status;
+
+    //  for history
+    public String returnDate;
+    public String reqRejectCause;
+    public String remainDate;
+    public String sendRejectCause;
     public String volTitle;
 }

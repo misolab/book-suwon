@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RentalListContents {
+public class ApplyListContents {
 
     public Integer totalPage;
     public List<Apply> applyList = null;

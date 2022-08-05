@@ -3,7 +3,7 @@ package com.misolab.booksuwon.domain.vo;
 import lombok.Data;
 
 @Data
-public class RentalListParam {
+public class RentalParam {
 
     int page = 1;
     int display = 10;
