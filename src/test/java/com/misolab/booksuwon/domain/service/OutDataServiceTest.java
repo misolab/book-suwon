@@ -2,7 +2,9 @@ package com.misolab.booksuwon.domain.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.misolab.booksuwon.domain.vo.LoginParam;
-import com.misolab.booksuwon.domain.vo.LoginResponse;
+import com.misolab.booksuwon.domain.vo.LoginResult;
+import com.misolab.booksuwon.domain.vo.RentalListParam;
+import com.misolab.booksuwon.domain.vo.RentalListResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
@@ -20,16 +22,29 @@ class OutDataServiceTest {
         String userId = "";
         String userPw = "";
 
-        LoginResponse result = outDataService.login(new LoginParam(userId, userPw));
+        LoginResult result = outDataService.login(new LoginParam(userId, userPw));
 
         //  commit 을 위해  userId, userPw 공백 처리
-        if (userId.equals("")){
+        if (userId.equals("")) {
             assertThat(result.getResult().getCode()).isEqualTo("N");
         } else {
             log.debug("{}", result.getContents().getUserToken());
-            assertThat(result.getResult().getCode()).isEqualTo(" Y");
+            assertThat(result.getResult().getCode()).isEqualTo("Y");
         }
+    }
 
+    @Test
+    void test_rentalList() throws JsonProcessingException {
+        String token = "";
 
+        RentalListResult result = outDataService.rentalList(token, new RentalListParam());
+
+        if (token.equals("")) {
+            assertThat(result.getResult().getCode()).isEqualTo("N");
+        } else {
+            log.debug("{}", result.getContents().totalCount);
+            result.getContents().applyList.forEach(a -> log.debug("{}", a));
+            assertThat(result.getResult().getCode()).isEqualTo("Y");
+        }
     }
 }
