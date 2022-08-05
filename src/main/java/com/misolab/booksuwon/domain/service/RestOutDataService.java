@@ -1,11 +1,11 @@
 package com.misolab.booksuwon.domain.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.misolab.booksuwon.common.util.StringUtils;
 import com.misolab.booksuwon.domain.vo.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
@@ -13,30 +13,9 @@ public class RestOutDataService implements OutDataService {
 
     final RestTemplate restTemplate;
 
-    final String Host = "https://www.suwonlib.go.kr:8443";
-    final private String LoginUrl = Host + "/api/user/login";
-
-    final private String RentalListUrl = Host + "/api/kolas/loan/state?page=%d&display=%d&sortType=%d";
-
-    final private String HistoryUrl = Host + "/api/kolas/loan/history?page=%d&display=%d&sortType=%d&manageCode=%s&searchType=%d&searchKeyword=%s";
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    private HttpEntity<String> getRequest(String token, Object param) throws JsonProcessingException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        if (StringUtils.isNotEmpty(token)) {
-            headers.add("x-access-token", token);
-        }
-
-        HttpEntity<String> request;
-        if (param != null) {
-            String payload = mapper.writeValueAsString(param);
-            request = new HttpEntity<>(payload, headers);
-        } else {
-            request = new HttpEntity<>(headers);
-        }
-        return request;
+    private String getResponseBody(String url, HttpMethod method, HttpEntity<String> request) {
+        ResponseEntity<String> response = restTemplate.exchange(url, method, request, String.class);
+        return response.getBody();
     }
 
     @Override
@@ -47,12 +26,6 @@ public class RestOutDataService implements OutDataService {
         LoginResult result = mapper.readValue(body, LoginResult.class);
         return result;
     }
-
-    private String getResponseBody(String url, HttpMethod method, HttpEntity<String> request) {
-        ResponseEntity<String> response = restTemplate.exchange(url, method, request, String.class);
-        return response.getBody();
-    }
-
 
     @Override
     public ApplyListResult rental(String token, RentalParam param) throws JsonProcessingException {
