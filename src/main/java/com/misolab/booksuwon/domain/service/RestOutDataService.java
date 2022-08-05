@@ -2,6 +2,7 @@ package com.misolab.booksuwon.domain.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.misolab.booksuwon.common.util.StringUtils;
 import com.misolab.booksuwon.domain.vo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -21,45 +22,52 @@ public class RestOutDataService implements OutDataService {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    @Override
-    public LoginResult login(LoginParam param) throws JsonProcessingException {
+    private HttpEntity<String> getRequest(String token, Object param) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        if (StringUtils.isNotEmpty(token)) {
+            headers.add("x-access-token", token);
+        }
 
-        String payload = mapper.writeValueAsString(param);
-        HttpEntity<String> request = new HttpEntity<>(payload, headers);
+        HttpEntity<String> request;
+        if (param != null) {
+            String payload = mapper.writeValueAsString(param);
+            request = new HttpEntity<>(payload, headers);
+        } else {
+            request = new HttpEntity<>(headers);
+        }
+        return request;
+    }
 
-        ResponseEntity<String> response = restTemplate.exchange(LoginUrl, HttpMethod.POST, request, String.class);
-        String body = response.getBody();
+    @Override
+    public LoginResult login(LoginParam param) throws JsonProcessingException {
+        HttpEntity<String> request = getRequest(null, param);
+
+        String body = getResponseBody(LoginUrl, HttpMethod.POST, request);
         LoginResult result = mapper.readValue(body, LoginResult.class);
         return result;
     }
 
+    private String getResponseBody(String url, HttpMethod method, HttpEntity<String> request) {
+        ResponseEntity<String> response = restTemplate.exchange(url, method, request, String.class);
+        return response.getBody();
+    }
+
+
     @Override
     public ApplyListResult rental(String token, RentalParam param) throws JsonProcessingException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("x-access-token", token);
+        HttpEntity<String> request = getRequest(token, param);
 
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(param.toUrl(RentalListUrl), HttpMethod.GET, request, String.class);
-        String body = response.getBody();
+        String body = getResponseBody(param.toUrl(RentalListUrl), HttpMethod.GET, request);
         ApplyListResult result = mapper.readValue(body, ApplyListResult.class);
         return result;
-
     }
 
     @Override
     public ApplyListResult hitory(String token, HistoryParam param) throws JsonProcessingException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("x-access-token", token);
+        HttpEntity<String> request = getRequest(token, param);
 
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(param.toUrl(HistoryUrl), HttpMethod.GET, request, String.class);
-        String body = response.getBody();
+        String body = getResponseBody(param.toUrl(HistoryUrl), HttpMethod.GET, request);
         ApplyListResult result = mapper.readValue(body, ApplyListResult.class);
         return result;
     }
