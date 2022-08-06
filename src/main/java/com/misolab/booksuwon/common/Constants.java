@@ -35,4 +35,7 @@ public interface Constants {
 
     Integer MEMBER_ERROR_COUNT = 5;
 
+    static String SESSION_USER = "session-user";
+    static String X_ACCESS_TOKEN = "x-access-token";
+
 }

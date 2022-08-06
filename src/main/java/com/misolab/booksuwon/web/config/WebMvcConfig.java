@@ -1,13 +1,22 @@
 package com.misolab.booksuwon.web.config;
 
-import com.misolab.booksuwon.common.util.StringUtils;
+import static com.misolab.booksuwon.common.util.StringUtils.isNotEmpty;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.misolab.booksuwon.web.util.LoginUserArgumentResolver;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 @PropertySources({
         @PropertySource("classpath:/resource.properties"),
@@ -23,10 +32,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        if (StringUtils.isNotEmpty(resourcesLocation)
-                && StringUtils.isNotEmpty(resourcesUriPath)) {
+        if (isNotEmpty(resourcesLocation) && isNotEmpty(resourcesUriPath)) {
             registry.addResourceHandler(resourcesUriPath + "/**")
                     .addResourceLocations("file://" + resourcesLocation);
         }
     }
+
+    final LoginUserArgumentResolver loginUserArgumentResolver;
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(loginUserArgumentResolver);
+        WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+    }
+    
 }

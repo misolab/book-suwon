@@ -1,23 +1,31 @@
 package com.misolab.booksuwon.app.controller;
 
-import com.misolab.booksuwon.common.util.DateTimeUtils;
-import com.misolab.booksuwon.web.vo.ApiResponse;
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
+import com.misolab.booksuwon.common.util.DateTimeUtils;
+import com.misolab.booksuwon.web.util.LoginUser;
+import com.misolab.booksuwon.web.vo.ApiResponse;
+import com.misolab.booksuwon.web.vo.SessionUser;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/")
 public class IndexController extends BaseController {
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
+        log.info("user {}", user);
+
         model.addAttribute("name", "hello misolab");
         model.addAttribute("list", Arrays.asList(1, 2, 3, 4));
         return "index";

@@ -1,6 +1,11 @@
 # Book Suwon 
 - 수원시 도서관 서비스의 정보를 이용해서 책들에 리뷰를 남기는 서비스
 
+# [4. User session](https://github.com/misolab/book-suwon/issues/4)
+- 로그인 후 세션에 저장하고
+- 외부 데이터 조회를 이용하자
+  - 외부 세션이 만료되면 우리도 세션 close (목록 조회하면서...)
+
 # [3.Login UI & DB](https://github.com/misolab/book-suwon/issues/3)
 - 우선 UI를 만들어서 통신이 되는지
   - Controller
