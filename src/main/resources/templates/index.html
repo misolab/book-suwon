@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/webjars/vue/vue.min.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <a href="/review">리뷰작성</a>
+    <ul>
+        <li v-for="l in list" @click="click(l)">
+          <div><img :src="l.coverUrl" :alt="l.title" width="100px"> {{ l.title }} / {{ l.author }}</div>
+          <div>{{ l.content }}</div>
+          <div>{{ l.writerName }}</div>
+        </li>
+    </ul>
+
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+  var _l = /*[[ ${list} ]]*/{};
+
+
+  var wrap = new Vue({
+    el: "#wrap",
+    data: function () {
+      return {
+        list: _l,
+      }
+    },
+    methods: {
+      click: function (l) {
+        alert(`${l.libName} 도서관 - ${l.callNo}`);
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script th:src="@{/webjars/vue/vue.min.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <form action="/login" method="post">
+        <input name="userId" value="" type="text">
+        <input name="userPw" value="" type="password">
+        <input name="returnUrl" th:value="${returnUrl}" type="hidden">
+        <input type="submit" value="Login">
+    </form>
+    <div>
+      <button v-if="token" @click="click">Show Token</button>
+    </div>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+  var _t = /*[[ ${token} ]]*/{};
+  
+  var wrap = new Vue({
+    el: "#wrap",
+    data: function () {
+      return {
+        token: _t
+      }
+    },
+    methods: {
+      click: function () {
+        alert(this.token);
+      }
+    }
+  })
+/*]]>*/
+</script>
+</body>
+</html>
