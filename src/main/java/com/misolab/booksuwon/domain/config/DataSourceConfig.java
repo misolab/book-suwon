@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Getter
@@ -19,5 +20,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @MapperScan(basePackages = {"com.misolab.booksuwon.domain.mapper"})
 @EntityScan(basePackages = {"com.misolab.booksuwon.domain.entity"})
 @EnableJpaRepositories(basePackages = {"com.misolab"})
+@EnableJpaAuditing
 public class DataSourceConfig {
 }

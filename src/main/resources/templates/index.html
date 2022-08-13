@@ -9,26 +9,29 @@
 <div id="wrap">
     <a href="/review">리뷰작성</a>
     <ul>
-        <li v-for="l in list" @click="click(l)">{{ l }}</li>
+        <li v-for="l in list" @click="click(l)">
+          <div><img :src="l.coverUrl" :alt="l.title" width="100px"> {{ l.title }} / {{ l.author }}</div>
+          <div>{{ l.content }}</div>
+          <div>{{ l.writerName }}</div>
+        </li>
     </ul>
 
 </div>
 
 <script type="text/javascript" th:inline="javascript">
-  var _n = /*[[ ${name} ]]*/{};
   var _l = /*[[ ${list} ]]*/{};
+
 
   var wrap = new Vue({
     el: "#wrap",
     data: function () {
       return {
         list: _l,
-        name: _n
       }
     },
     methods: {
       click: function (l) {
-        alert(this.name + "~" + l);
+        alert(`${l.libName} 도서관 - ${l.callNo}`);
       }
     }
   })

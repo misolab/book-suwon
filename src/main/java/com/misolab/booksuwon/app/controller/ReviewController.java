@@ -1,7 +1,9 @@
 package com.misolab.booksuwon.app.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.misolab.booksuwon.app.controller.dto.ReviewParam;
+import com.misolab.booksuwon.app.controller.dto.ReviewPostParam;
+import com.misolab.booksuwon.domain.entity.Review;
+import com.misolab.booksuwon.domain.service.InDataService;
 import com.misolab.booksuwon.domain.service.OutDataService;
 import com.misolab.booksuwon.domain.vo.ApplyListResult;
 import com.misolab.booksuwon.domain.vo.RentalParam;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ReviewController extends BaseController {
 
     final OutDataService outDataService;
+    final InDataService inDataService;
 
     @GetMapping
     public String review(@LoginUser SessionUser sessionUser, Model model) throws JsonProcessingException {
@@ -37,8 +40,13 @@ public class ReviewController extends BaseController {
     }
 
     @PostMapping
-    public String reviewPost(@LoginUser SessionUser sessionUser, @RequestBody ReviewParam param) {
+    public String reviewPost(@LoginUser SessionUser sessionUser, @RequestBody ReviewPostParam param) {
         log.info("param {}", param);
+
+        Review review = param.toEntity(sessionUser.getUserId(), sessionUser.getUserName());
+        inDataService.addReview(review);
+
+        // 수정은 나중에 생각하자!
 
         return "redirect:/";
     }

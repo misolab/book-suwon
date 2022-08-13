@@ -14,10 +14,12 @@
     
     <div>
       <div>{{ bookInfo.title }} - {{ bookInfo.author }}</div>
+      <img :src="bookInfo.coverUrl" alt="">
       <form action="/review" method="post">
         <input type="hidden" name="author" v-model="bookInfo.author">
         <input type="hidden" name="title" v-model="bookInfo.title">
         <input type="hidden" name="publisher" v-model="bookInfo.publisher">
+        <input type="hidden" name="coverUrl" v-model="bookInfo.coverUrl">
         
         <input type="hidden" name="callNo" v-model="bookInfo.callNo">
         <input type="hidden" name="libName" v-model="bookInfo.libName">
