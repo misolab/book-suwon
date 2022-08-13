@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Suwon</title>
+    <script th:src="@{/webjars/vue/vue.min.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <h1>Review</h1>
+    <ul>
+        <li v-for="l in list" @click="click(l)">{{ l.title }}</li>
+    </ul>
+    
+    <div>
+      <div>{{ bookInfo.title }} - {{ bookInfo.author }}</div>
+      <img :src="bookInfo.coverUrl" alt="">
+      <form action="/review" method="post">
+        <input type="hidden" name="author" v-model="bookInfo.author">
+        <input type="hidden" name="title" v-model="bookInfo.title">
+        <input type="hidden" name="publisher" v-model="bookInfo.publisher">
+        <input type="hidden" name="coverUrl" v-model="bookInfo.coverUrl">
+        
+        <input type="hidden" name="callNo" v-model="bookInfo.callNo">
+        <input type="hidden" name="libName" v-model="bookInfo.libName">
+        <input type="hidden" name="libCode" v-model="bookInfo.libCode">
+
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <input type="submit" value="등록">
+      </form>
+
+    </div>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+  var _l = /*[[ ${list} ]]*/{};
+
+  var wrap = new Vue({
+    el: "#wrap",
+    data: function () {
+      return {
+        list: _l,
+        bookInfo: {},
+      }
+    },
+    methods: {
+      click: function (l) {
+        this.bookInfo = l
+      }
+    }
+  })
+</script>
+</body>
+</html>

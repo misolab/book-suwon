@@ -1,15 +1,15 @@
 package com.misolab.booksuwon.domain.entity;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -36,8 +36,13 @@ public class User extends BaseTimeEntity {
     @Builder
     User(String userToken, String userNo, String userId, String userName) {
         this.userId = userId;
+        setInfo(userToken, userNo, userName);
+    }
+
+    public User setInfo(String userToken, String userNo, String userName) {
         this.userToken = userToken;
         this.userNo = userNo;
         this.userName = userName;
+        return this;
     }
 }

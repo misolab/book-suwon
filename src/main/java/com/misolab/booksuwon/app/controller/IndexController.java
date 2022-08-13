@@ -1,20 +1,24 @@
 package com.misolab.booksuwon.app.controller;
 
-import java.util.Arrays;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.misolab.booksuwon.common.util.DateTimeUtils;
+import com.misolab.booksuwon.domain.entity.Review;
+import com.misolab.booksuwon.domain.service.InDataService;
+import com.misolab.booksuwon.web.util.LoginUser;
+import com.misolab.booksuwon.web.vo.ApiResponse;
+import com.misolab.booksuwon.web.vo.SessionUser;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.misolab.booksuwon.common.util.DateTimeUtils;
-import com.misolab.booksuwon.web.util.LoginUser;
-import com.misolab.booksuwon.web.vo.ApiResponse;
-import com.misolab.booksuwon.web.vo.SessionUser;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,13 +26,30 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/")
 public class IndexController extends BaseController {
 
+    final InDataService inDataService;
+
+    final ObjectMapper objectMapper;
+
     @GetMapping
     public String index(Model model, @LoginUser SessionUser user) {
         log.info("user {}", user);
 
-        model.addAttribute("name", "hello misolab");
-        model.addAttribute("list", Arrays.asList(1, 2, 3, 4));
+        List<Review> reviewList = inDataService.getReview();
+        List<Object> list = reviewList.stream().map(r -> toObject(r))
+                .collect(Collectors.toList());
+
+        model.addAttribute("list", list);
         return "index";
+    }
+
+    private Object toObject(Review r) {
+        try {
+            String jsonString = objectMapper.writeValueAsString(r);
+            return objectMapper.readValue(jsonString, Map.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @GetMapping("/api")
