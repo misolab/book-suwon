@@ -2,16 +2,15 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Book Suwon</title>
     <script th:src="@{/webjars/vue/vue.min.js}"></script>
 </head>
 <body>
 <div id="wrap">
-    <a href="/review">리뷰작성</a>
+    <h1>Review</h1>
     <ul>
         <li v-for="l in list" @click="click(l)">{{ l }}</li>
     </ul>
-
 </div>
 
 <script type="text/javascript" th:inline="javascript">

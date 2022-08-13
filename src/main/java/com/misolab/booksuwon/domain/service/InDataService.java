@@ -1,11 +1,9 @@
 package com.misolab.booksuwon.domain.service;
 
-import org.springframework.stereotype.Service;
-
 import com.misolab.booksuwon.domain.entity.User;
 import com.misolab.booksuwon.domain.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
@@ -14,9 +12,8 @@ public class InDataService {
     final UserRepository userRepository;
 
     public Long saveUserInfo(String userId, String userToken, String userNo, String userName) {
-        User user = User.builder()
-                .userId(userId).userToken(userToken).userNo(userNo).userName(userName)
-                .build();
+        User user = userRepository.findByUserId(userId).orElse(User.builder().userId(userId).build());
+        user.setInfo(userToken, userNo, userName);
         userRepository.save(user);
         return user.getId();
     }

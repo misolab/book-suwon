@@ -1,6 +1,18 @@
 # Book Suwon 
 - 수원시 도서관 서비스의 정보를 이용해서 책들에 리뷰를 남기는 서비스
 
+# [5. Review CRUD](https://github.com/misolab/book-suwon/issues/5)
+- ~~작성화면으로 이동하면~~
+- (로그인 기반으로)대출 내역을 조회하고
+  * 세션에서 토큰 꺼내와서 서비스 조회하고
+  * 리스트로 그려준다
+  * 책을 선택하면 리뷰정보를 입력해준다
+- 리뷰를 작성해보자
+  * 글 입력 후 submit
+  * 저장 - 작성자, 책정보, 리뷰, (댓글)
+- 리뷰를 조회하자 (guest)
+  * 메인화면으로 최신 리뷰를 조회 
+
 # [4. User session](https://github.com/misolab/book-suwon/issues/4)
 - 로그인 후 세션에 저장하고
 - 외부 데이터 조회를 이용하자

@@ -10,6 +10,7 @@
     <form action="/login" method="post">
         <input name="userId" value="" type="text">
         <input name="userPw" value="" type="password">
+        <input name="returnUrl" th:value="${returnUrl}" type="hidden">
         <input type="submit" value="Login">
     </form>
     <div>
