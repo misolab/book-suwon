@@ -9,12 +9,28 @@
 <div id="wrap">
     <h1>Review</h1>
     <ul>
-        <li v-for="l in list" @click="click(l)">{{ l }}</li>
+        <li v-for="l in list" @click="click(l)">{{ l.title }}</li>
     </ul>
+    
+    <div>
+      <div>{{ bookInfo.title }} - {{ bookInfo.author }}</div>
+      <form action="/review" method="post">
+        <input type="hidden" name="author" v-model="bookInfo.author">
+        <input type="hidden" name="title" v-model="bookInfo.title">
+        <input type="hidden" name="publisher" v-model="bookInfo.publisher">
+        
+        <input type="hidden" name="callNo" v-model="bookInfo.callNo">
+        <input type="hidden" name="libName" v-model="bookInfo.libName">
+        <input type="hidden" name="libCode" v-model="bookInfo.libCode">
+
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <input type="submit" value="등록">
+      </form>
+
+    </div>
 </div>
 
 <script type="text/javascript" th:inline="javascript">
-  var _n = /*[[ ${name} ]]*/{};
   var _l = /*[[ ${list} ]]*/{};
 
   var wrap = new Vue({
@@ -22,12 +38,12 @@
     data: function () {
       return {
         list: _l,
-        name: _n
+        bookInfo: {},
       }
     },
     methods: {
       click: function (l) {
-        alert(this.name + "~" + l);
+        this.bookInfo = l
       }
     }
   })
