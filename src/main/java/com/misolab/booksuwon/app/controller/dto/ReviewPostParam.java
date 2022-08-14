@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class ReviewPostParam {
-    String content;
+    String review;
 
     String author;
     String title;
@@ -19,10 +19,10 @@ public class ReviewPostParam {
     String libCode;
 
     public Review toEntity(String writerId, String writerName) {
-        Review review = new Review();
-        review.setWriteInfo(writerId, writerName, content)
+        Review entity = new Review();
+        entity.setWriteInfo(writerId, writerName, review)
                 .setBookInfo(author, title, publisher, coverUrl)
                 .setLibraryInfo(callNo, libName, libCode);
-        return review;
+        return entity;
     }
 }

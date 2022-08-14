@@ -26,6 +26,8 @@ create table tbl_user (
     unique key user_id (user_id)
 );
 
+create unique index idx_user_user_id on tbl_user (user_id);
+
 
 CREATE TABLE SPRING_SESSION (
 	PRIMARY_ID CHAR(36) NOT NULL,
