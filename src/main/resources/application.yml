@@ -8,3 +8,7 @@ spring:
     prefix: file:src/main/resources/templates/
   session:
     store-type: jdbc
+server:
+  servlet:
+    session:
+      timeout: 7d

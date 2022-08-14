@@ -33,8 +33,12 @@ public class ReviewController extends BaseController {
             return "redirect:/login?returnUrl=/review";
         }
 
-        ApplyListResult list = outDataService.rental(sessionUser.getUserToken(), new RentalParam());
-        model.addAttribute("list", list.getContents().getApplyList());
+        try {
+            ApplyListResult list = outDataService.rental(sessionUser.getUserToken(), new RentalParam());
+            model.addAttribute("list", list.getContents().getApplyList());                
+        } catch (Exception e) {
+            return "redirect:/login?returnUrl=/review";
+        }
 
         return "review";
     }

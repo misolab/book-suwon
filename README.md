@@ -1,6 +1,11 @@
 # Book Suwon 
 - 수원시 도서관 서비스의 정보를 이용해서 책들에 리뷰를 남기는 서비스
 
+# [6. Reply](https://github.com/misolab/book-suwon/issues/6)
+1. 글 상세 댓글 입력창
+2. 댓글 목록
+3. 리스트 - 댓글 갯수
+
 # [5. Review CRUD](https://github.com/misolab/book-suwon/issues/5)
 1. 작성화면으로 이동하면
 2. (로그인 기반으로)대출 내역을 조회하고

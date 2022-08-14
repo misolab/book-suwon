@@ -1,24 +1,29 @@
 package com.misolab.booksuwon.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "TBL_REVIEW")
+@Table(name = "TBL_REVIEW", indexes = { 
+    @Index(name = "idx_review_writer_id", columnList = "writerId"), 
+    @Index(name = "idx_review_publisher", columnList = "publisher"), 
+    @Index(name = "idx_review_author", columnList = "author"), 
+    @Index(name = "idx_review_lib_name", columnList = "libName"), 
+})
 public class Review extends BaseTimeEntity {
 
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -32,7 +37,7 @@ public class Review extends BaseTimeEntity {
 
     @Lob
     @Column(columnDefinition = "TEXT")
-    String content;
+    String review;
 
     // book info
     @Column(length = 80, nullable = false)
@@ -56,10 +61,10 @@ public class Review extends BaseTimeEntity {
     @Column(length = 20)
     String libCode;
 
-    public Review setWriteInfo(String userId, String userName, String content) {
+    public Review setWriteInfo(String userId, String userName, String review) {
         this.writerId = userId;
         this.writerName = userName;
-        this.content = content;
+        this.review = review;
         return this;
     }
 
@@ -77,4 +82,8 @@ public class Review extends BaseTimeEntity {
         this.libCode = libCode;
         return this;
     }
+
+    @Setter
+    @Column(columnDefinition = "integer default 0")
+    Integer commentCount = 0;
 }
